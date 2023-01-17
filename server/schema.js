@@ -378,7 +378,7 @@ const resolvers = {
       //if there is, we will just fetch and return that row
       const check = await db.query("SELECT * FROM metrics WHERE user_id = ($1);", [user_id]);
       //if there isnt, we make a call to the python service to generate the relevant data and insert into the DB and return.
-      const res = await axios.post(`http://127.0.0.1:5000/recommend/${user_id}`);
+      const res = await axios.post(`https://tasksai-python-production.up.railway.app/recommend/${user_id}`);
       const dataML = res.data;
       if (check.rows.length == 0) {
         await db.query('INSERT INTO metrics (recommendations, metrics, user_id) VALUES ($1, $2, $3)', [dataML.recommendations, JSON.stringify(dataML.metrics), user_id])
