@@ -4,7 +4,7 @@ const path = require('path');
 const { ApolloServer } = require('apollo-server-express');
 const {typeDefs, resolvers} = require('./schema');
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 //intiate a new Apollo graphQL server here.
 async function startApolloServer(typeDefs, resolvers) {
   const server = new ApolloServer({typeDefs, resolvers});
