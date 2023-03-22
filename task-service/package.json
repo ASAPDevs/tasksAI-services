@@ -1,0 +1,24 @@
+{
+  "name": "task-service",
+  "version": "1.0.0",
+  "description": "task service",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "sls offline start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/federation": "^0.38.1",
+    "@apollo/gateway": "^2.4.0",
+    "@as-integrations/aws-lambda": "^2.0.1",
+    "apollo-server": "^3.12.0",
+    "dotenv": "^16.0.3",
+    "pg": "^8.10.0"
+  },
+  "devDependencies": {
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-offline": "^12.0.4"
+  }
+}
