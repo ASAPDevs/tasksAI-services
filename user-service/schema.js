@@ -1,18 +1,14 @@
 const { gql } = require("apollo-server-express");
 const { GraphQLError } = require("graphql");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const db = require("./models/db");
 const axios = require("axios")
 
 const typeDefs = gql`
-  # type Query {
-  #   getTasksByDay(date: String!, user_id: Int): [Task]
-  #   getAllTasks(user_id: Int): [Task]
-  #   # for ML
-  #   # getRecMessage(user_id: )
-  #   getDataML(user_id: Int!): MLData
-  #   getLastGeneration(user_id: Int!): String
-  # }
+  type Query {
+    getDataML(user_id: Int!): MLData
+    getLastGeneration(user_id: Int!): String
+  }
 
   type Mutation {
     login(username: String!, password: String!): User!
@@ -20,14 +16,30 @@ const typeDefs = gql`
     changePassword(userInput: ChangePasswordInput!): User!
     changeEmail(userInput: ChangeEmailInput!): User!
     deleteUser(id: ID!): User!
-    # createTask(task: TaskInput): Task!
-    # updateTask(task: UpdateTaskInput): Task
-    # deleteTask(id: ID!): Task
-    # completeTask(id: ID!, onTime: Boolean!): Task
-    # pushTask(id: ID!, newStartTime: String!, newEndTime: String!, newTimeOfDay: Int!): Task
-    # generateDataML(user_id: Int!): MLDataObject!
+    generateDataML(user_id: Int!): MLDataObject!
   }
 
+  type MLDataObject {
+    ml: MLData
+    lastGeneration: String
+  }
+
+  # for ML
+  type MLData {
+    recommendations: [String],
+    metrics: Metrics
+  }
+
+  type Metrics {
+    onTimeMetrics: OnTimeMetrics
+  }
+
+  type OnTimeMetrics {
+    Dawn: Int,
+    Morning: Int,
+    Afternoon: Int,
+    Evening: Int
+  }
 
   input ChangeEmailInput {
     username: String!
@@ -328,7 +340,7 @@ const resolvers = {
       //if there is, we will just fetch and return that row
       const check = await db.query("SELECT * FROM metrics WHERE user_id = ($1);", [user_id]);
       //if there isnt, we make a call to the python service to generate the relevant data and insert into the DB and return.
-      const res = await axios.post(`https://tasksai-python-production.up.railway.app/recommend/${user_id}`);
+      const res = await axios.post(`https://dp57xnbzrxvnee5pkcze3ljuq40fqmdc.lambda-url.us-east-1.on.aws/recommend/${user_id}`);
       const dataML = res.data;
       if (check.rows.length == 0) {
         await db.query('INSERT INTO metrics (recommendations, metrics, user_id) VALUES ($1, $2, $3)', [dataML.recommendations, JSON.stringify(dataML.metrics), user_id])

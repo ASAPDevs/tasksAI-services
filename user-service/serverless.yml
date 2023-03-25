@@ -1,0 +1,26 @@
+service: user-service
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: us-east-1
+  environment:
+    PLAYGROUND: "true"
+    INTROSPECTION: "true"
+  httpApi:
+    cors: true
+
+functions:
+  graphql:
+    handler: handler.graphqlHandler
+    events:
+      - httpApi:
+          path: /
+          method: POST
+      - httpApi:
+          path: /
+          method: GET
+
+plugins:
+  - serverless-offline

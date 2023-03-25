@@ -1,0 +1,22 @@
+service: apollo-gateway
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  environment:
+    PLAYGROUND: "true"
+    INTROSPECTION: "true"
+  httpApi:
+    cors: true
+
+functions:
+  graphql:
+    handler: handler.graphqlHandler
+    events:
+      - httpApi:
+          path: /
+          method: any
+
+plugins:
+  - serverless-offline

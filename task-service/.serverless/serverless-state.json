@@ -9,6 +9,10 @@
       "runtime": "nodejs14.x",
       "stage": "dev",
       "region": "us-east-1",
+      "environment": {
+        "PLAYGROUND": "true",
+        "INTROSPECTION": "true"
+      },
       "httpApi": {
         "cors": true
       },
@@ -177,13 +181,19 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/task-service/dev/1679450367722-2023-03-22T01:59:27.722Z/task-service.zip"
+                "S3Key": "serverless/task-service/dev/1679532816966-2023-03-23T00:53:36.966Z/task-service.zip"
               },
               "Handler": "handler.graphqlHandler",
               "Runtime": "nodejs14.x",
               "FunctionName": "task-service-dev-graphql",
               "MemorySize": 1024,
               "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "PLAYGROUND": "true",
+                  "INTROSPECTION": "true"
+                }
+              },
               "Role": {
                 "Fn::GetAtt": [
                   "IamRoleLambdaExecution",
@@ -195,14 +205,14 @@
               "GraphqlLogGroup"
             ]
           },
-          "GraphqlLambdaVersion6AuX3lNyF5NZzwXb8gcvkmAnK2CQXGN0JBCIYJNEV34": {
+          "GraphqlLambdaVersionQwnW3JkfYXPjuvwEuCllctAAofoWgaWaokL81MPdXpw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GraphqlLambdaFunction"
               },
-              "CodeSha256": "aVYUtyQsPzSLHFrTIaYySLCywk4UjMoMlOHLM41hdFA="
+              "CodeSha256": "yVme4xyFwIxjNEm1fdH1S3c0ayupMdpVj3910cer/nw="
             }
           },
           "HttpApi": {
@@ -350,7 +360,7 @@
           "GraphqlLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GraphqlLambdaVersion6AuX3lNyF5NZzwXb8gcvkmAnK2CQXGN0JBCIYJNEV34"
+              "Ref": "GraphqlLambdaVersionQwnW3JkfYXPjuvwEuCllctAAofoWgaWaokL81MPdXpw"
             },
             "Export": {
               "Name": "sls-task-service-dev-GraphqlLambdaFunctionQualifiedArn"
@@ -507,7 +517,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "GraphqlLambdaVersion6AuX3lNyF5NZzwXb8gcvkmAnK2CQXGN0JBCIYJNEV34"
+        "versionLogicalId": "GraphqlLambdaVersionQwnW3JkfYXPjuvwEuCllctAAofoWgaWaokL81MPdXpw"
       }
     },
     "configValidationMode": "warn",
@@ -529,7 +539,7 @@
     "artifact": "/Users/jackiehe/Desktop/TasksAIBackend/tasksAI-services/task-service/.serverless/task-service.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/task-service/dev/1679450367722-2023-03-22T01:59:27.722Z",
+    "artifactDirectoryName": "serverless/task-service/dev/1679532816966-2023-03-23T00:53:36.966Z",
     "artifact": "task-service.zip"
   }
 }

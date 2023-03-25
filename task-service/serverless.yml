@@ -5,6 +5,9 @@ provider:
   runtime: nodejs14.x
   stage: dev
   region: us-east-1
+  environment:
+    PLAYGROUND: "true"
+    INTROSPECTION: "true"
   httpApi:
     cors: true
 
